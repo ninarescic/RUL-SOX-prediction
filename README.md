@@ -49,42 +49,52 @@ rul-sox-project/
 
 ---
 
-## Data
+## Installing Conda (first-time setup)
 
-### Synthetic data (included)
-Synthetic data is provided to:
-- allow everyone to run the notebooks immediately
-- illustrate degradation behavior and ground truth RUL/SOX
-- debug preprocessing and modeling logic safely
+This project uses **Conda** to manage Python and all required packages.
+If you do not already have Conda installed, follow the steps below.
 
-Location:
+### Step 1: Download Miniconda (recommended)
+
+Miniconda is a minimal Conda installer.
+
+Download from:
+- https://docs.conda.io/en/latest/miniconda.html
+
+Choose:
+- **Windows** → Miniconda3 (64-bit)
+- **macOS / Linux** → Miniconda3
+
+### Step 2: Install Miniconda
+
+During installation:
+- ✅ Allow Conda to initialize your shell (recommended)
+- ✅ Use default installation settings
+
+After installation, **restart your terminal**.
+
+### Step 3: Verify installation
+
+Open a new terminal (or PowerShell) and run:
+
 ```
-data/synthetic/
+conda --version
 ```
 
-### Private data (not included)
-Real data must be placed **locally** and is **not committed to GitHub**.
-
-Expected location:
-```
-data/private/
-```
-
-⚠️ Do not commit private data — it is excluded via `.gitignore`.
+If Conda is installed correctly, you should see a version number.
 
 ---
 
 ## Environment setup
 
-### Option 1: Conda (recommended)
+Once Conda is installed, create the project environment.
+
+From the project root directory:
 
 ```
 conda env create -f environment.yml
 conda activate rul-sox
 ```
-
-### Option 2: pip + venv
-Use the packages listed in `environment.yml`.
 
 ---
 
@@ -102,9 +112,40 @@ or
 jupyter lab
 ```
 
+Make sure the **correct Conda environment (`rul-sox`)** is selected as the kernel.
+
+---
+
+## Data
+
+### Synthetic data (included)
+
+Synthetic data is provided to:
+- allow everyone to run the notebooks immediately
+- illustrate degradation behavior and ground truth RUL/SOX
+- debug preprocessing and modeling logic safely
+
+Location:
+```
+data/synthetic/
+```
+
+### Private data (not included)
+
+Real data must be placed **locally** and is **not committed to GitHub**.
+
+Expected location:
+```
+data/private/
+```
+
+⚠️ Do not commit private data — it is excluded via `.gitignore`.
+
 ---
 
 ## Notebook execution order
+
+Run notebooks **in order**:
 
 1. `00_Jupyter_Basics.ipynb`
 2. `01_Data_Overview.ipynb`
@@ -114,10 +155,10 @@ jupyter lab
 
 Choose one track:
 
-### Classical ML
+### Classical Machine Learning
 6. `classical_ml/05_Classical_Model.ipynb`
 
-### Deep Learning
+### Deep Learning (LSTM)
 6. `deep_learning/05_LSTM_Model.ipynb`
 
 Finally:
@@ -127,24 +168,32 @@ Finally:
 
 ## Why feature engineering is shared
 
-Feature engineering is applied per time step and shared across models.
-Classical ML aggregates features; LSTMs consume sequences directly.
+Feature engineering is applied **per time step** and shared across all models.
 
-This ensures fair comparison and clearer learning outcomes.
+- Classical ML aggregates features over time windows
+- LSTM models consume full feature sequences
+
+This ensures:
+- fair comparison
+- reduced code duplication
+- clearer learning outcomes
 
 ---
 
 ## Important rules
 
-- No data leakage
-- No random shuffling of time series
-- Keep notebooks runnable top-to-bottom
+- **No data leakage** (fit scalers on training data only)
+- **No random shuffling** of time series
+- Keep notebooks runnable **top-to-bottom**
 
 ---
 
 ## Troubleshooting
 
-### Git dubious ownership (Windows)
+### Git: dubious ownership (Windows)
+
+If you see a "dubious ownership" error:
+
 ```
 git config --global --add safe.directory "<repo_path>"
 ```
@@ -153,7 +202,8 @@ git config --global --add safe.directory "<repo_path>"
 
 ## Learning outcomes
 
-Students will:
-- understand the full ML pipeline
-- implement feature engineering and windowing
-- compare classical ML and LSTM approaches
+By the end of this project, students should be able to:
+- explain the full ML pipeline
+- justify preprocessing and feature choices
+- train and evaluate a model correctly
+- compare classical ML and LSTM tradeoffs
