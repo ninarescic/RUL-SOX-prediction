@@ -8,7 +8,7 @@ It is designed for students who are **new to Python, Jupyter notebooks, and mach
 The project follows a **shared data pipeline** (preprocessing, feature engineering, windowing) and then branches into two modeling approaches:
 
 - **Classical Machine Learning** (feature-based models)
-- **Deep Learning** (LSTM sequence models)
+- **Deep Learning (LSTM)** using PyTorch
 
 The goal is not only to build models, but to understand **how data preparation and representation affect results**.
 
@@ -39,9 +39,11 @@ rul-sox-project/
       04_Windowing.ipynb
 
     classical_ml/
+      00_Classical_ML_Demo.ipynb
       05_Classical_Model.ipynb
 
     deep_learning/
+      00_LSTM_TimeSeries_Demo.ipynb
       05_LSTM_Model.ipynb
 
     06_Evaluation_Comparison.ipynb
@@ -52,14 +54,11 @@ rul-sox-project/
 ## Installing Conda (first-time setup)
 
 This project uses **Conda** to manage Python and all required packages.
-If you do not already have Conda installed, follow the steps below.
 
 ### Step 1: Download Miniconda (recommended)
 
-Miniconda is a minimal Conda installer.
-
-Download from:
-- https://docs.conda.io/en/latest/miniconda.html
+Download Miniconda from:
+https://docs.conda.io/en/latest/miniconda.html
 
 Choose:
 - **Windows** → Miniconda3 (64-bit)
@@ -68,51 +67,57 @@ Choose:
 ### Step 2: Install Miniconda
 
 During installation:
-- ✅ Allow Conda to initialize your shell (recommended)
-- ✅ Use default installation settings
+- Allow Conda to initialize your shell
+- Use default installation options
 
-After installation, **restart your terminal**.
+Restart your terminal after installation.
 
 ### Step 3: Verify installation
 
-Open a new terminal (or PowerShell) and run:
-
-```
+```bash
 conda --version
 ```
-
-If Conda is installed correctly, you should see a version number.
 
 ---
 
 ## Environment setup
 
-Once Conda is installed, create the project environment.
-
 From the project root directory:
 
-```
+```bash
 conda env create -f environment.yml
 conda activate rul-sox
 ```
 
 ---
 
+## Deep learning framework
+
+For deep learning and LSTM models, this project uses **PyTorch**.
+
+PyTorch was chosen because:
+- it is robust and reliable on Windows systems
+- it integrates well with Conda environments
+- it provides transparent control over training loops
+- it avoids common TensorFlow DLL issues on student machines
+
+No prior PyTorch experience is required.
+
+> Note: The LSTM demo notebook uses **PyTorch**, even though the filename does not include the framework name.
+
+---
+
 ## Starting Jupyter
 
-From the project root:
+Always start Jupyter from an activated environment:
 
-```
+```bash
+conda activate rul-sox
 jupyter notebook
 ```
 
-or
-
-```
-jupyter lab
-```
-
-Make sure the **correct Conda environment (`rul-sox`)** is selected as the kernel.
+In Jupyter, ensure the selected kernel is:
+**Python (rul-sox)**
 
 ---
 
@@ -147,36 +152,39 @@ data/private/
 
 Run notebooks **in order**:
 
-1. `00_Jupyter_Basics.ipynb`
-2. `01_Data_Overview.ipynb`
-3. `02_Preprocessing_Shared.ipynb`
-4. `feature_preparation/03_Feature_Engineering.ipynb`
-5. `feature_preparation/04_Windowing.ipynb`
+1. `00_Jupyter_Basics.ipynb`  
+   → Learn how Jupyter notebooks work and basic Python usage
 
-Choose one track:
+2. `01_Data_Overview.ipynb`  
+   → Explore synthetic (and optionally private) data
 
-### Classical Machine Learning
-6. `classical_ml/05_Classical_Model.ipynb`
+3. `02_Preprocessing_Shared.ipynb`  
+   → Cleaning, scaling, and train/validation/test split  
+   ⚠️ Split is done **by unit**, not by time step
 
-### Deep Learning (LSTM)
-6. `deep_learning/05_LSTM_Model.ipynb`
+4. `feature_preparation/03_Feature_Engineering.ipynb`  
+   → Feature creation per time step (shared by all models)
 
-Finally:
-7. `06_Evaluation_Comparison.ipynb`
+5. `feature_preparation/04_Windowing.ipynb`  
+   → Sliding windows and label assignment
 
----
+### Example notebooks (warm-up)
 
-## Why feature engineering is shared
+Before working on the RUL/SOX models, complete these examples:
 
-Feature engineering is applied **per time step** and shared across all models.
+- `classical_ml/00_Classical_ML_Demo.ipynb`  
+  → Typical classical ML workflow (baseline, linear model, tree-based model)
 
-- Classical ML aggregates features over time windows
-- LSTM models consume full feature sequences
+- `deep_learning/00_LSTM_TimeSeries_Demo.ipynb`  
+  → Basic LSTM example on synthetic time-series data (PyTorch)
 
-This ensures:
-- fair comparison
-- reduced code duplication
-- clearer learning outcomes
+### Main modeling notebooks
+
+- `classical_ml/05_Classical_Model.ipynb`
+- `deep_learning/05_LSTM_Model.ipynb`
+
+6. `06_Evaluation_Comparison.ipynb`  
+   → Compare classical ML and LSTM approaches on the same test set
 
 ---
 
@@ -185,16 +193,22 @@ This ensures:
 - **No data leakage** (fit scalers on training data only)
 - **No random shuffling** of time series
 - Keep notebooks runnable **top-to-bottom**
+- **Do not use the base Anaconda environment**
 
 ---
 
 ## Troubleshooting
 
+### Conda environments and kernels
+
+If you encounter import errors:
+- ensure `rul-sox` environment is activated
+- restart Jupyter
+- select kernel **Python (rul-sox)**
+
 ### Git: dubious ownership (Windows)
 
-If you see a "dubious ownership" error:
-
-```
+```bash
 git config --global --add safe.directory "<repo_path>"
 ```
 
@@ -202,8 +216,8 @@ git config --global --add safe.directory "<repo_path>"
 
 ## Learning outcomes
 
-By the end of this project you should be able to:
+By the end of this project, students should be able to:
 - explain the full ML pipeline
 - justify preprocessing and feature choices
-- train and evaluate a model correctly
-- compare classical ML and LSTM tradeoffs
+- train and evaluate classical ML and LSTM models
+- compare feature-based and sequence-based approaches
