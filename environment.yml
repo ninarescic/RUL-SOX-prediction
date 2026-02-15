@@ -1,0 +1,28 @@
+# Create a minimal, beginner-friendly environment.yml for the project (Keras/TensorFlow based)
+
+environment_content = """name: rul-sox
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - numpy
+  - pandas
+  - matplotlib
+  - seaborn
+  - scikit-learn
+  - jupyter
+  - jupyterlab
+  - pyyaml
+
+  # Deep learning (Keras / TensorFlow)
+  - tensorflow>=2.12
+
+  # Optional but useful
+  - tqdm
+"""
+
+file_path = "/mnt/data/environment.yml"
+with open(file_path, "w", encoding="utf-8") as f:
+    f.write(environment_content)
+
+file_path
