@@ -202,7 +202,7 @@ git config --global --add safe.directory "<repo_path>"
 
 ## Learning outcomes
 
-By the end of this project, students should be able to:
+By the end of this project you should be able to:
 - explain the full ML pipeline
 - justify preprocessing and feature choices
 - train and evaluate a model correctly
